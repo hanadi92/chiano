@@ -85,6 +85,7 @@ class PgnGame {
           color: match.group(2) != null ? PgnColor.black : PgnColor.white,
           san: match.group(3)!,
           clock: _parseClock(match.group(4)),
+          // todo timeControl - clock = stress level
         ),
     ];
 

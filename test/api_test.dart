@@ -2,6 +2,7 @@ import 'package:chiano/models/game_model.dart';
 import 'package:chiano/services/api_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
+import 'package:chiano/extensions/pgn_move_extension.dart';
 
 void main() {
   test('api called and response parsed into a list of games', () async {
@@ -15,6 +16,7 @@ void main() {
 
     print('--- LIVE API SERVICE PARSED OUTPUT ---');
     print(result);
+    print(result.first.pgn.moves.first.note);
     print('--------------------------------------');
 
     assert(result.isNotEmpty);

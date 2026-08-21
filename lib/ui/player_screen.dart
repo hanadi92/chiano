@@ -1,4 +1,6 @@
 import 'package:chiano/extensions/string_extension.dart';
+import 'package:chiano/services/mappers/end_mapper.dart';
+import 'package:chiano/services/mappers/first_mapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_midi_pro/flutter_midi_pro.dart';
 
@@ -7,6 +9,9 @@ import '../models/game_model.dart';
 import 'visualizer_screen.dart';
 
 enum _PlayerStatus { loading, ready, playing, error }
+
+final EndMapper _endMapper = EndMapper();
+final FirstMapper _firstMapper = FirstMapper();
 
 class PlayerScreen extends StatefulWidget {
   const PlayerScreen({required this.game, super.key});
@@ -99,7 +104,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
 
     for (final move in widget.game.pgn.moves) {
       if (generation != _playbackGeneration || !mounted) return;
-      final note = move.note;
+      final note = move.note(_endMapper);
 
       debugPrint('play note ${move.san} $note');
       if (move.isCheck) {

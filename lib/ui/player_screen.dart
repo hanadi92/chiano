@@ -130,6 +130,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
     _playbackGeneration++;
     _midiEngine.stopAllNotes();
     _midiEngine.unloadSoundfont(1);
+    _midiEngine.dispose();
     super.dispose();
   }
 

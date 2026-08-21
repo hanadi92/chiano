@@ -1,3 +1,4 @@
+import 'package:chiano/ui/player_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../models/game_model.dart';
@@ -48,7 +49,15 @@ class ListScreen extends StatelessWidget {
                   child: ListTile(
                     title: Text(game.uuid), // todo human readable pgn.date.
                     subtitle: Text('Type: ${game.timeClass} vs ${game.black.username}'),
-
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (_) => PlayerScreen(
+                            game: game,
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 );
               },

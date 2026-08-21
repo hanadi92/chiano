@@ -15,9 +15,9 @@ class FormScreen extends StatefulWidget {
 class _FormScreenState extends State<FormScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  final _usernameController = TextEditingController();
-  final _yearController = TextEditingController();
-  final _monthController = TextEditingController();
+  final _usernameController = TextEditingController(text: 'kopiko_o9');
+  final _yearController = TextEditingController(text: '2026');
+  final _monthController = TextEditingController(text: '04');
 
   static final _yearPattern = RegExp(r'^\d{4}$');
   static final _monthPattern = RegExp(r'^(0[1-9]|1[0-2])$');

@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 
 import 'mapper.dart';
 
-class FirstMapper implements Mapper {
-  FirstMapper();
+class LandingSquareMapper implements Mapper {
+  LandingSquareMapper();
 
   /*
     notes are 7: A B C D E F G , and their sharps
@@ -25,8 +25,8 @@ class FirstMapper implements Mapper {
     }
 
     bool isSharp = firstChar == firstChar.toLowerCase();
-    String finalSquareChar = move.san.characters.takeLast(move.isCheck ? 3 : 2).first;
-    switch (finalSquareChar) {
+    String landingSquareChar = move.san.characters.takeLast(move.isCheck ? 3 : 2).first;
+    switch (landingSquareChar) {
       case 'a':
       // do
         return isSharp ? 61 : 60;

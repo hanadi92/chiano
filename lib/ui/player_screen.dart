@@ -1,3 +1,4 @@
+import 'package:chiano/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_midi_pro/flutter_midi_pro.dart';
 import '../extensions/pgn_move_extension.dart';
@@ -137,7 +138,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Playing: ${widget.game.uuid}')),
+      appBar: AppBar(title: Text('Playing: ${widget.game.timeClass.toTitleCase()}')),
       body: SafeArea(child: Center(child: _buildBody())),
     );
   }

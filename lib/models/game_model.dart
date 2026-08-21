@@ -1,24 +1,26 @@
 // lib/models/game_model.dart
 import 'package:chiano/models/pgn_model.dart';
 import 'package:chiano/models/player_model.dart';
+import 'package:flutter/foundation.dart';
 
+@immutable
 class Game {
-  final String url; // "https://www.chess.com/game/live/6252899948"
+  final String url;
   final PgnGame pgn;
-  final String timeControl; // "600"
-  final int endTime; // 1610809173
-  final bool rated; // true
-  final String tcn; // "mu0Kgv5QfH!0ksWOHQ0Qdr3VlBKCvK7TnDZRKQ6EQG86rX6ZGQ76blRJQKZ7XJ9RKETFowFEJ1?91J2MlCMDuD98eg65CT5HJ470480T8QHNfnEdnfdmQomogo"
-  final String uuid; // "540cd88c-5809-11eb-9a76-0069e4010001"
-  final String initialSetup; // "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
-  final String fen; // "8/2p5/p2b1k1p/7r/3P1P2/2P3P1/PP4KP/R1B2R2 b - -"
-  final String timeClass; // "rapid"
-  final String rules; // "chess"
+  final String timeControl;
+  final int endTime;
+  final bool rated;
+  final String tcn;
+  final String uuid;
+  final String initialSetup;
+  final String fen;
+  final String timeClass;
+  final String rules;
   final Player white;
   final Player black;
-  final String eco; // "https://www.chess.com/openings/Van-t-Kruijs-Opening-1...e5"
+  final String eco;
 
-  Game({
+  const Game({
     required this.url,
     required this.pgn,
     required this.timeControl,

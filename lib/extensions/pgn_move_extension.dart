@@ -27,9 +27,9 @@ extension PgnMoveExtenstion on PgnMove {
     bool isSharp = firstChar == firstChar.toLowerCase();
     String finalSquareChar = san.characters.takeLast(isCheck ? 3 : 2).first;
     switch (finalSquareChar) {
-        case 'a':
-          // do
-          return isSharp ? 61 : 60;
+      case 'a':
+        // do
+        return isSharp ? 61 : 60;
       case 'b':
         // re
         return isSharp ? 63 : 62;
@@ -63,6 +63,6 @@ extension PgnMoveExtenstion on PgnMove {
     }
 
     // todo to be implemented after introducing stress level
-    return 30;
+    return 100;
   }
 }

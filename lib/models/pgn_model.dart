@@ -1,5 +1,8 @@
+import 'package:flutter/foundation.dart';
+
 enum PgnColor { white, black }
 
+@immutable
 class PgnMove {
   const PgnMove({
     required this.moveNumber,
@@ -15,6 +18,7 @@ class PgnMove {
   final Duration? clock;
 }
 
+@immutable
 class PgnGame {
   const PgnGame({
     required this.event,

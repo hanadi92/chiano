@@ -64,7 +64,5 @@ class BarsPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant BarsPainter oldDelegate) {
-    return true;
-  }
+  bool shouldRepaint(covariant BarsPainter oldDelegate) => true;
 }

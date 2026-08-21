@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import '../../models/active_note.dart';
@@ -17,38 +19,65 @@ class DotsPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final now = DateTime.now();
 
-    // Idle ambience: a handful of slow, faint drifting dots.
-    for (var i = 0; i < 6; i++) {
-      final t = (idlePhase + i / 6) % 1.0;
-      final dx = size.width * (0.1 + 0.8 * ((i * 0.37) % 1.0));
-      final dy = size.height * (0.2 + 0.6 * t);
-      canvas.drawCircle(
-        Offset(dx, dy),
-        4,
-        Paint()..color = color.withValues(alpha: 0.08),
-      );
-    }
+    _drawIdleDots(canvas, size);
 
     for (final note in notes) {
-      final opacity = note.opacityAt(now);
-      if (opacity <= 0) continue;
-      final pitchFrac = _pitchFraction(note.key);
-      final velocityFrac = note.velocity / 127;
-      final elapsedMs = now.difference(note.startedAt).inMilliseconds;
+      _drawNote(canvas, size, note, now);
+    }
+  }
 
-      // Quick attack burst, then settle.
-      final attack = (elapsedMs / 150).clamp(0.0, 1.0);
-      final radius = (12 + velocityFrac * 36) * attack;
-      final dx = size.width * pitchFrac;
-      // Spread vertically by pitch class so chords don't fully overlap.
-      final dy = size.height * (0.3 + 0.4 * ((note.key % 12) / 12));
+  void _drawIdleDots(Canvas canvas, Size size) {
+    for (var i = 0; i < 10; i++) {
+      final phase = (idlePhase + i / 10) % 1.0;
+      final x = size.width * (0.08 + 0.84 * ((i * 0.37) % 1.0));
+      final y = size.height * (0.15 + 0.7 * phase);
+      final radius = 3.0 + math.sin(idlePhase * 2 * math.pi + i) * 1.0;
 
       canvas.drawCircle(
-        Offset(dx, dy),
+        Offset(x, y),
         radius,
-        Paint()..color = color.withValues(alpha: opacity * 0.7),
+        Paint()..color = color.withValues(alpha: 0.12),
       );
     }
+  }
+
+  void _drawNote(Canvas canvas, Size size, ActiveNote note, DateTime now)
+  {
+    final opacity = note.opacityAt(now);
+    if (opacity <= 0) return;
+
+    final pitch = _pitchFraction(note.key);
+    final velocity = note.velocity / 127.0;
+    final elapsed = now.difference(note.startedAt).inMilliseconds / 1000.0;
+
+    // show up with ease-out
+    final attack = Curves.easeOut.transform((elapsed / 0.25).clamp(0.0, 1.0));
+    // while playing, move
+    final movement = math.sin(elapsed * 5.0) * 8.0;
+    final x = size.width * pitch;
+    final y = size.height * 0.5 + movement;
+    final radius = (8.0 + velocity * 32.0) * attack;
+
+    // most out circle
+    canvas.drawCircle(
+      Offset(x, y),
+      radius * 1.8,
+      Paint()..color = color.withValues(alpha: opacity * 0.18),
+    );
+
+    // middle circle
+    canvas.drawCircle(
+      Offset(x, y),
+      radius,
+      Paint()..color = color.withValues(alpha: opacity * 0.27),
+    );
+
+    // smallest circle
+    canvas.drawCircle(
+      Offset(x, y),
+      radius * 0.25,
+      Paint()..color = color.withValues(alpha: opacity),
+    );
   }
 
   @override

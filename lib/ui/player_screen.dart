@@ -30,6 +30,8 @@ class _PlayerScreenState extends State<PlayerScreen> {
   Object? _error;
   int _playbackGeneration = 0;
 
+  VisualizationStyle _visualizationStyle = VisualizationStyle.waves;
+
   static const _noteDuration = Duration(milliseconds: 400);
 
   @override
@@ -153,15 +155,47 @@ class _PlayerScreenState extends State<PlayerScreen> {
       body: SafeArea(
         child: Column(
           children: <Widget>[
+            _buildVisualizationSelector(),
             Expanded(
               child: MusicVisualizer(
                 controller: visualizerController,
-                style: VisualizationStyle.bars,
+                style: _visualizationStyle,
                 color: Colors.deepPurple,
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildVisualizationSelector() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: SegmentedButton<VisualizationStyle>(
+        segments: const [
+          ButtonSegment(
+            value: VisualizationStyle.waves,
+            label: Text('Waves'),
+            icon: Icon(Icons.waves),
+          ),
+          ButtonSegment(
+            value: VisualizationStyle.dots,
+            label: Text('Dots'),
+            icon: Icon(Icons.bubble_chart),
+          ),
+          ButtonSegment(
+            value: VisualizationStyle.bars,
+            label: Text('Bars'),
+            icon: Icon(Icons.bar_chart),
+          ),
+        ],
+        selected: {_visualizationStyle},
+        onSelectionChanged: (selection) {
+          setState(() {
+            _visualizationStyle = selection.first;
+          });
+        },
       ),
     );
   }

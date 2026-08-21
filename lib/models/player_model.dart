@@ -1,12 +1,14 @@
-// lib/models/player_model.dart
-class Player {
-  final int rating; // 1385
-  final String result; // "win"
-  final String id; //  "https://api.chess.com/pub/player/bayusi2"
-  final String username; // "Bayusi2"
-  final String uuid; // "709aedf4-3be9-11eb-8d15-293845ac82c0"
+import 'package:flutter/foundation.dart';
 
-  Player({
+@immutable
+class Player {
+  final int rating;
+  final String result;
+  final String id;
+  final String username;
+  final String uuid;
+
+  const Player({
     required this.rating,
     required this.result,
     required this.id,

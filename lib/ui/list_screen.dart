@@ -1,6 +1,9 @@
+import 'package:chiano/ui/player_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../models/game_model.dart';
+import '../extensions/string_extension.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class ListScreen extends StatelessWidget {
   const ListScreen({required this.gamesFuture, super.key});
@@ -46,9 +49,21 @@ class ListScreen extends StatelessWidget {
                 return Card(
                   key: ValueKey(game.uuid),
                   child: ListTile(
-                    title: Text(game.uuid), // todo human readable pgn.date.
-                    subtitle: Text('Type: ${game.timeClass} vs ${game.black.username}'),
-
+                    title: Text(game.timeClass.toTitleCase()),
+                    subtitle: Text(
+                        '${game.white.username} vs ${game.black.username} at '
+                        '${timeago.format(game.pgn.utcDateTime ?? DateTime.now())} \n'
+                        '${game.pgn.utcDateTime?.toLocal()}'
+                    ),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (_) => PlayerScreen(
+                            game: game,
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 );
               },

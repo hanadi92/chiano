@@ -1,4 +1,6 @@
 import 'package:chiano/extensions/string_extension.dart';
+import 'package:chiano/services/mappers/piece_based_mapper.dart';
+import 'package:chiano/services/mappers/landing_square_mapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_midi_pro/flutter_midi_pro.dart';
 
@@ -7,6 +9,9 @@ import '../models/game_model.dart';
 import 'visualizer_screen.dart';
 
 enum _PlayerStatus { loading, ready, playing, error }
+
+final PieceBasedMapper _pieceBasedMapper = PieceBasedMapper();
+final LandingSquareMapper _landingSquareMapper = LandingSquareMapper();
 
 class PlayerScreen extends StatefulWidget {
   const PlayerScreen({required this.game, super.key});
@@ -24,6 +29,8 @@ class _PlayerScreenState extends State<PlayerScreen> {
   _PlayerStatus _status = _PlayerStatus.loading;
   Object? _error;
   int _playbackGeneration = 0;
+
+  VisualizationStyle _visualizationStyle = VisualizationStyle.waves;
 
   static const _noteDuration = Duration(milliseconds: 400);
 
@@ -99,7 +106,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
 
     for (final move in widget.game.pgn.moves) {
       if (generation != _playbackGeneration || !mounted) return;
-      final note = move.note;
+      final note = move.note(_pieceBasedMapper);
 
       debugPrint('play note ${move.san} $note');
       if (move.isCheck) {
@@ -148,15 +155,47 @@ class _PlayerScreenState extends State<PlayerScreen> {
       body: SafeArea(
         child: Column(
           children: <Widget>[
+            _buildVisualizationSelector(),
             Expanded(
               child: MusicVisualizer(
                 controller: visualizerController,
-                style: VisualizationStyle.bars,
+                style: _visualizationStyle,
                 color: Colors.deepPurple,
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildVisualizationSelector() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: SegmentedButton<VisualizationStyle>(
+        segments: const [
+          ButtonSegment(
+            value: VisualizationStyle.waves,
+            label: Text('Waves'),
+            icon: Icon(Icons.waves),
+          ),
+          ButtonSegment(
+            value: VisualizationStyle.dots,
+            label: Text('Dots'),
+            icon: Icon(Icons.bubble_chart),
+          ),
+          ButtonSegment(
+            value: VisualizationStyle.bars,
+            label: Text('Bars'),
+            icon: Icon(Icons.bar_chart),
+          ),
+        ],
+        selected: {_visualizationStyle},
+        onSelectionChanged: (selection) {
+          setState(() {
+            _visualizationStyle = selection.first;
+          });
+        },
       ),
     );
   }

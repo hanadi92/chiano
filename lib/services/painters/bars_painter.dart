@@ -23,30 +23,43 @@ class BarsPainter extends CustomPainter {
     final now = DateTime.now();
     final barWidth = size.width / _barCount;
 
-    // Max intensity per bucket, from whichever active note falls in it.
     final intensity = List<double>.filled(_barCount, 0);
     for (final note in notes) {
       final opacity = note.opacityAt(now);
       if (opacity <= 0) continue;
-      final bucket = (_pitchFraction(note.key) * (_barCount - 1)).round();
-      final value = (note.velocity / 127) * opacity;
-      if (value > intensity[bucket]) intensity[bucket] = value;
+
+      final pitch = _pitchFraction(note.key);
+      final bucket = (pitch * (_barCount - 1)).round();
+      final velocity = note.velocity / 127.0;
+      final elapsed = now.difference(note.startedAt).inMilliseconds / 1000.0;
+
+      // Smooth attack.
+      final attack = Curves.easeOut.transform((elapsed / 0.12).clamp(0.0, 1.0));
+      final value = velocity * attack * opacity;
+      intensity[bucket] = math.max(intensity[bucket], value);
     }
 
     for (var i = 0; i < _barCount; i++) {
-      final idleBob = 0.05 + 0.03 * math.sin(idlePhase * 2 * math.pi + i * 0.5);
-      final heightFrac = math.max(idleBob, intensity[i]);
-      final barHeight = size.height * heightFrac;
+      final idle = 0.12 + 0.05 * math.sin(idlePhase * 2 * math.pi + i * 0.5);
+      final heightFraction = math.max(idle, intensity[i]);
+      final barHeight = size.height * heightFraction;
 
-      canvas.drawRect(
+      final rect = RRect.fromRectAndRadius(
         Rect.fromLTWH(
-          i * barWidth + 1,
+          i * barWidth + 2,
           size.height - barHeight,
-          barWidth - 2,
+          barWidth - 4,
           barHeight,
         ),
-        Paint()..color = color.withValues(alpha: 0.25 + intensity[i] * 0.65),
+        const Radius.circular(4),
       );
+
+      final paint = Paint()
+        ..color = color.withValues(
+          alpha: 0.25 + intensity[i] * 0.7,
+        );
+
+      canvas.drawRRect(rect, paint);
     }
   }
 

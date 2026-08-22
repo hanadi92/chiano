@@ -1,10 +1,19 @@
+import 'package:chiano/controllers/theme_controller.dart';
 import 'package:chiano/services/api_service.dart';
-import 'package:chiano/ui/home_screen.dart';
+import 'package:chiano/ui/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(MyApp(apiService: ApiService(http.Client())));
+  final themeController = ThemeController();
+
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => themeController,
+      child: MyApp(apiService: ApiService(http.Client())),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -12,15 +21,29 @@ class MyApp extends StatelessWidget {
 
   final ApiService apiService;
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final themeMode = context.watch<ThemeController>().themeMode;
+
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Chiano',
       theme: ThemeData(
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+        colorScheme: .fromSeed(
+          seedColor: Colors.deepPurple,
+          brightness: Brightness.light,
+        ),
       ),
-      home: HomeScreen(apiService: apiService,),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        colorScheme: .fromSeed(
+          seedColor: Colors.deepPurple,
+          brightness: Brightness.dark,
+        ),
+        scaffoldBackgroundColor: const Color(0xFF0D0B12),
+      ),
+      themeMode: themeMode,
+      home: HomeScreen(apiService: apiService),
     );
   }
 }

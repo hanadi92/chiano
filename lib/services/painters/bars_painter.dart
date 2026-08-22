@@ -33,12 +33,13 @@ class BarsPainter extends CustomPainter {
       final velocity = note.velocity / 127.0;
       final elapsed = now.difference(note.startedAt).inMilliseconds / 1000.0;
 
-      // Smooth attack.
+      // smooth attack
       final attack = Curves.easeOut.transform((elapsed / 0.12).clamp(0.0, 1.0));
       final value = velocity * attack * opacity;
       intensity[bucket] = math.max(intensity[bucket], value);
     }
 
+    // idle bar
     for (var i = 0; i < _barCount; i++) {
       final idle = 0.12 + 0.05 * math.sin(idlePhase * 2 * math.pi + i * 0.5);
       final heightFraction = math.max(idle, intensity[i]);
@@ -56,7 +57,7 @@ class BarsPainter extends CustomPainter {
 
       final paint = Paint()
         ..color = color.withValues(
-          alpha: 0.25 + intensity[i] * 0.7,
+          alpha: 0.45 + intensity[i] * 0.7,
         );
 
       canvas.drawRRect(rect, paint);

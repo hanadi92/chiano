@@ -1,12 +1,14 @@
 import 'package:chiano/extensions/string_extension.dart';
-import 'package:chiano/services/mappers/piece_based_mapper.dart';
 import 'package:chiano/services/mappers/landing_square_mapper.dart';
+import 'package:chiano/services/mappers/piece_based_mapper.dart';
+import 'package:chiano/ui/components/title_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_midi_pro/flutter_midi_pro.dart';
 
-import '../extensions/pgn_move_extension.dart';
-import '../models/game_model.dart';
-import 'visualizer_screen.dart';
+import '../../extensions/pgn_move_extension.dart';
+import '../../models/game_model.dart';
+import '../components/play_button.dart';
+import '../components/visualizer.dart';
 
 enum _PlayerStatus { loading, ready, playing, error }
 
@@ -146,22 +148,30 @@ class _PlayerScreenState extends State<PlayerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme
+        .of(context)
+        .colorScheme;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Playing: ${widget.game.timeClass.toTitleCase()}'),
+      appBar: TitleBar(
+        title: 'Playing: ${widget.game.timeClass.toTitleCase()}',
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-      floatingActionButton: _buildPlayButton(),
       body: SafeArea(
         child: Column(
-          children: <Widget>[
+          children: [
             _buildVisualizationSelector(),
             Expanded(
               child: MusicVisualizer(
                 controller: visualizerController,
                 style: _visualizationStyle,
-                color: Colors.deepPurple,
+                color: colorScheme.primary,
               ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 16,
+                bottom: 16,
+              ),
+              child: _buildPlayButton(),
             ),
           ],
         ),
@@ -203,26 +213,28 @@ class _PlayerScreenState extends State<PlayerScreen> {
   Widget _buildPlayButton() {
     switch (_status) {
       case _PlayerStatus.loading:
-        return const CircularProgressIndicator();
+        return const SizedBox(
+          width: 64,
+          height: 64,
+          child: CircularProgressIndicator(),
+        );
+
       case _PlayerStatus.error:
-        return Padding(
-          padding: const EdgeInsets.all(24),
-          child: Text(
-            'Could not load soundfont:\n$_error',
-            textAlign: TextAlign.center,
-          ),
+        return Text(
+          'Could not load soundfont:\n$_error',
+          textAlign: TextAlign.center,
         );
+
       case _PlayerStatus.ready:
-        return FloatingActionButton(
+        return PlayButton(
+          icon: Icons.play_arrow_rounded,
           onPressed: widget.game.pgn.moves.isEmpty ? null : _play,
-          tooltip: 'Play',
-          child: const Icon(Icons.play_arrow),
         );
+
       case _PlayerStatus.playing:
-        return FloatingActionButton(
+        return PlayButton(
+          icon: Icons.stop_rounded,
           onPressed: _stop,
-          tooltip: 'Stop',
-          child: const Icon(Icons.stop),
         );
     }
   }

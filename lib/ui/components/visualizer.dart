@@ -3,7 +3,7 @@ import 'package:chiano/services/painters/dots_painter.dart';
 import 'package:chiano/services/painters/waves_painter.dart';
 import 'package:flutter/material.dart';
 
-import '../models/active_note.dart';
+import '../../models/active_note.dart';
 
 enum VisualizationStyle { waves, dots, bars }
 

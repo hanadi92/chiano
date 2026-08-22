@@ -36,7 +36,8 @@ class DotsPainter extends CustomPainter {
       canvas.drawCircle(
         Offset(x, y),
         radius,
-        Paint()..color = color.withValues(alpha: 0.12),
+        Paint()
+          ..color = color.withValues(alpha: 0.22),
       );
     }
   }
@@ -62,14 +63,16 @@ class DotsPainter extends CustomPainter {
     canvas.drawCircle(
       Offset(x, y),
       radius * 1.8,
-      Paint()..color = color.withValues(alpha: opacity * 0.18),
+      Paint()
+        ..color = color.withValues(alpha: opacity * 0.25),
     );
 
     // middle circle
     canvas.drawCircle(
       Offset(x, y),
       radius,
-      Paint()..color = color.withValues(alpha: opacity * 0.27),
+      Paint()
+        ..color = color.withValues(alpha: opacity * 0.50),
     );
 
     // smallest circle

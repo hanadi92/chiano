@@ -43,7 +43,7 @@ class HomeScreen extends StatelessWidget {
                 'Hear your games.',
                 textAlign: TextAlign.center,
                 style: theme.textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w700,
                   letterSpacing: -0.8,
                 ),
               ),

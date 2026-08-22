@@ -60,7 +60,7 @@ class _FormScreenState extends State<FormScreen> {
                 Text(
                   'Let’s find your game',
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w700,
                     letterSpacing: -0.8,
                   ),
                 ),

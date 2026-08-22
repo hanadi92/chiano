@@ -3,6 +3,7 @@ import 'package:chiano/services/mappers/landing_square_mapper.dart';
 import 'package:chiano/services/mappers/piece_based_mapper.dart';
 import 'package:chiano/ui/components/title_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_midi_pro/flutter_midi_pro.dart';
 
 import '../../extensions/pgn_move_extension.dart';
@@ -83,11 +84,18 @@ class _PlayerScreenState extends State<PlayerScreen> {
 
   Future<void> _loadSoundfont() async {
     try {
-      await _midiEngine.loadSoundfontAsset(
-        assetPath: 'assets/Piano.SF2',
+      // fix for android
+      final data = await rootBundle.load('assets/Piano.SF2');
+      await _midiEngine.loadSoundfontData(
+        data: data.buffer.asUint8List(),
         bank: 0,
         program: 0,
       );
+      // await _midiEngine.loadSoundfontAsset(
+      //   assetPath: 'assets/Piano.SF2',
+      //   bank: 0,
+      //   program: 0,
+      // );
 
       if (!mounted) return;
       setState(() => _status = _PlayerStatus.ready);

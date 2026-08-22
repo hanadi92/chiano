@@ -1,12 +1,12 @@
 import 'package:chiano/extensions/string_extension.dart';
-import 'package:chiano/services/mappers/piece_based_mapper.dart';
 import 'package:chiano/services/mappers/landing_square_mapper.dart';
+import 'package:chiano/services/mappers/piece_based_mapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_midi_pro/flutter_midi_pro.dart';
 
-import '../extensions/pgn_move_extension.dart';
-import '../models/game_model.dart';
-import 'visualizer_screen.dart';
+import '../../extensions/pgn_move_extension.dart';
+import '../../models/game_model.dart';
+import '../components/visualizer.dart';
 
 enum _PlayerStatus { loading, ready, playing, error }
 

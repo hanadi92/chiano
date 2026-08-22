@@ -1,6 +1,6 @@
 import 'package:chiano/controllers/theme_controller.dart';
 import 'package:chiano/services/api_service.dart';
-import 'package:chiano/ui/home_screen.dart';
+import 'package:chiano/ui/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';

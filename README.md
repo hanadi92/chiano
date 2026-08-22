@@ -1,6 +1,6 @@
 # chiano
 
-hear the board
+hear the chessboard singing your gameplay.
 
 ## Getting Started
 

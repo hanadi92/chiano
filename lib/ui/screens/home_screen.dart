@@ -40,7 +40,7 @@ class HomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 32),
               Text(
-                'Hear your games.',
+                'Hear your Chessboard.',
                 textAlign: TextAlign.center,
                 style: theme.textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.w700,

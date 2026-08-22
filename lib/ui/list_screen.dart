@@ -1,9 +1,10 @@
 import 'package:chiano/ui/player_screen.dart';
+import 'package:chiano/ui/title_bar.dart';
 import 'package:flutter/material.dart';
-
-import '../models/game_model.dart';
-import '../extensions/string_extension.dart';
 import 'package:timeago/timeago.dart' as timeago;
+
+import '../extensions/string_extension.dart';
+import '../models/game_model.dart';
 
 class ListScreen extends StatelessWidget {
   const ListScreen({required this.gamesFuture, super.key});
@@ -13,7 +14,7 @@ class ListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Results')),
+      appBar: const TitleBar(title: 'Games'),
       body: SafeArea(
         child: FutureBuilder<List<Game>>(
           future: gamesFuture,
@@ -52,9 +53,7 @@ class ListScreen extends StatelessWidget {
                     title: Text(game.timeClass.toTitleCase()),
                     subtitle: Text(
                         '${game.white.username} vs ${game.black.username} at '
-                        '${timeago.format(game.pgn.utcDateTime ?? DateTime.now())} \n'
-                        '${game.pgn.utcDateTime?.toLocal()}'
-                    ),
+                      '${timeago.format(game.pgn.utcDateTime ?? DateTime.now())}'),
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute<void>(

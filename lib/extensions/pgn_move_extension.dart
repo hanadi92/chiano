@@ -19,15 +19,15 @@ extension PgnMoveExtenstion on PgnMove {
   }
 
   int note(Mapper mapper) {
-  return mapper.map(move: this);
+    return mapper.map(move: this);
   }
 
   int get velocity {
-  if (isTake) {
-  return 127;
-  }
+    if (isTake) {
+      return 127;
+    }
 
-  // todo to be implemented after introducing stress level
-  return 100;
+    // todo to be implemented after introducing stress level
+    return 100;
   }
 }

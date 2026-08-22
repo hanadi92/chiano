@@ -1,3 +1,4 @@
+import 'package:chiano/ui/title_bar.dart';
 import 'package:flutter/material.dart';
 
 import '../services/api_service.dart';
@@ -49,7 +50,9 @@ class _FormScreenState extends State<FormScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Find a game')),
+      appBar: const TitleBar(
+        title: 'Find a game',
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
